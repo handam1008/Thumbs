@@ -6,7 +6,8 @@ namespace WSH._01.Scripts
 {
     public class PuzzleProcess : MonoBehaviour
     {
-        [SerializeField] private CorrectPuzzleDataSO[] _correctPuzzleDataSO;
+        [SerializeField] private PuzzleDataSO[] _correctPuzzleDataSO;
+        [SerializeField] private PuzzleDataSO _firstPuzzleDataSO;
         
         [SerializeField] private int _randomValue;
 
@@ -24,7 +25,7 @@ namespace WSH._01.Scripts
 
             for (int i = 0; i < transform.childCount; i++)
             {
-                transform.GetChild(i).transform.rotation = Quaternion.Euler(0, 0, 0);
+                transform.GetChild(i).transform.rotation = Quaternion.Euler(0, 0, _firstPuzzleDataSO.puzzleData[i]);
             }
         }
 
@@ -33,11 +34,11 @@ namespace WSH._01.Scripts
             if (!_proccessing) return;
             StopProccess();
 
-            for (int i = 0; i < _correctPuzzleDataSO[_randomValue].correctPuzzleData.Length; i++)
+            for (int i = 0; i < _correctPuzzleDataSO[_randomValue].puzzleData.Length; i++)
             {
                 if (transform.GetChild(i).TryGetComponent<TileControl>(out TileControl tileControl))
                 {
-                    if (tileControl.currentRotationZ != _correctPuzzleDataSO[_randomValue].correctPuzzleData[i])
+                    if (tileControl.currentRotationZ != _correctPuzzleDataSO[_randomValue].puzzleData[i])
                     {
                         _complete = false;
                         break;
