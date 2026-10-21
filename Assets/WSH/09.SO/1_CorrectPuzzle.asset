@@ -12,3 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 789a3dce55ccf644a925f05e23adbda7, type: 3}
   m_Name: 1_CorrectPuzzle
   m_EditorClassIdentifier: Assembly-CSharp::WSH._09.SO.CorrectPuzzleDataSO
+  correctPuzzleData:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
