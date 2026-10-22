@@ -10,7 +10,7 @@ namespace WSH._01.Scripts
     {
         private PuzzleProcess _puzzleProcess;
         
-        public float currentRotationZ {get; private set;}
+        [field:SerializeField] public float currentRotationZ {get; private set;}
         [SerializeField] public bool _rotating;
 
         private void Awake()

@@ -17,7 +17,7 @@ namespace RYU.Scirpt.Guest
        
         private void Update()
         {
-            if(Keyboard.current.escapeKey.wasPressedThisFrame)
+            if(Keyboard.current.pKey.wasPressedThisFrame)
                 SpawnGuest();
         }
 
