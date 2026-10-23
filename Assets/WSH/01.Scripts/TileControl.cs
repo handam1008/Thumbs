@@ -18,6 +18,13 @@ namespace WSH._01.Scripts
             _puzzleProcess = GetComponentInParent<PuzzleProcess>();
         }
 
+        // 시작 각도를 화면 회전과 판정값(currentRotationZ)에 똑같이 넣는다
+        public void Init(float z)
+        {
+            currentRotationZ = z;
+            transform.rotation = Quaternion.Euler(0, 0, z);
+        }
+
         private void OnMouseDown()
         {
             if (_rotating) return;

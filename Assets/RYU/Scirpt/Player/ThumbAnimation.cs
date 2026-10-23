@@ -10,6 +10,7 @@ public class ThumbAnimation : MonoBehaviour
     private Animator _animator;
     private bool IsHand;
     [SerializeField] private SoundClipSO thumbSound;
+    [SerializeField] private RYU.Scirpt.Player.HandRaycast handRaycast;
     
 
     private void Awake()
@@ -21,7 +22,8 @@ public class ThumbAnimation : MonoBehaviour
     {
         if (Keyboard.current.qKey.wasPressedThisFrame)
             ThumbDown();
-        if (Keyboard.current.eKey.wasPressedThisFrame)
+        // 전선을 보고 있을 때의 E는 미니게임 실행(MiniGameLauncher) 용이라 손 애니메이션을 건너뛴다
+        if (Keyboard.current.eKey.wasPressedThisFrame && (handRaycast == null || handRaycast.Current == null))
             ThumbDownReverse();
         
     }

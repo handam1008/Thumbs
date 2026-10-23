@@ -2131,6 +2131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WSH._01.Scripts.PuzzleProcess
   _correctPuzzleDataSO:
   - {fileID: 11400000, guid: 91be5fbde38c27e4686998ddbf721ec5, type: 2}
+  _firstPuzzleDataSO: {fileID: 11400000, guid: a780a50cad26bd14cb37ce9223acde64, type: 2}
   _randomValue: 0
   _proccessing: 0
   _complete: 0

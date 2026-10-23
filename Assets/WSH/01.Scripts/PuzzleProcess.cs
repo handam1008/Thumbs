@@ -25,7 +25,10 @@ namespace WSH._01.Scripts
 
             for (int i = 0; i < transform.childCount; i++)
             {
-                transform.GetChild(i).transform.rotation = Quaternion.Euler(0, 0, _firstPuzzleDataSO.puzzleData[i]);
+                if (transform.GetChild(i).TryGetComponent(out TileControl tile))
+                    tile.Init(_firstPuzzleDataSO.puzzleData[i]);
+                else
+                    transform.GetChild(i).transform.rotation = Quaternion.Euler(0, 0, _firstPuzzleDataSO.puzzleData[i]);
             }
         }
 
@@ -53,9 +56,12 @@ namespace WSH._01.Scripts
             if (_complete) EndMiniGame();
         }
 
+        public static event System.Action OnCleared; // 가게 쪽(MiniGameLauncher)에서 받아서 미니게임을 닫는다
+
         public void EndMiniGame()
         {
             Debug.Log(123);
+            OnCleared?.Invoke();
         }
         
         public void Proccess()

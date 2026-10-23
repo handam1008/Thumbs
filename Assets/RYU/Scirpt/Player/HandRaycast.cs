@@ -8,8 +8,8 @@ namespace RYU.Scirpt.Player
         [SerializeField] private LayerMask whatIsElectric;
         [SerializeField] private Camera cam;
         [SerializeField] private Material glowMat;
-        [SerializeField] private Material normalMat;
         private Object _current;
+        public Object Current => _current; // 지금 바라보고 있는 전선 (없으면 null)
         private void Update()
         {
             Raycast();
@@ -23,7 +23,7 @@ namespace RYU.Scirpt.Player
 
             if (target == _current) return;                   
 
-            if (_current != null) _current.SetMaterial(normalMat); 
+            if (_current != null) _current.RollBackMaterial(); 
             if (target != null) target.SetMaterial(glowMat);        
             _current = target;
         }
