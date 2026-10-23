@@ -7,6 +7,9 @@ namespace RYU.Scirpt.Player
     {
         [SerializeField] private LayerMask whatIsElectric;
         [SerializeField] private Camera cam;
+        [SerializeField] private Material glowMat;
+        [SerializeField] private Material normalMat;
+        private Object _current;
         private void Update()
         {
             Raycast();
@@ -14,9 +17,15 @@ namespace RYU.Scirpt.Player
 
         public void Raycast()
         {
-            var col = Physics.Raycast(cam.transform.position, cam.transform.forward, 10f, whatIsElectric);
-            Debug.DrawRay(transform.position, Controller.LookInput, Color.red);
-            Debug.Log(col);
+            Object target = null;
+            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out RaycastHit hitInfo, 10f, whatIsElectric))
+                hitInfo.collider.TryGetComponent(out target);
+
+            if (target == _current) return;                   
+
+            if (_current != null) _current.SetMaterial(normalMat); 
+            if (target != null) target.SetMaterial(glowMat);        
+            _current = target;
         }
 
         private void OnDrawGizmos()
