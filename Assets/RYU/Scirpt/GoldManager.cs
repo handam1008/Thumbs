@@ -11,16 +11,28 @@ namespace RYU.Scirpt
         [field:SerializeField] public int Gold { get; private set; }
         public event Action OnGoldChanged;
 
+        public GameObject panel;
+
         private void Awake()
         {
             Instance = this;
         }
 
+        private void Start()
+        {
+            panel.SetActive(false);
+        }
+
         private void Update()
         {
-            if (Keyboard.current.numpad0Key.wasPressedThisFrame)
+            if (Gold > 2000)
             {
-                AddGold(500);
+                panel.SetActive(true);
+            }
+
+            if (Keyboard.current.gKey.wasPressedThisFrame)
+            {
+                AddGold(2000);
             }
         }
 
