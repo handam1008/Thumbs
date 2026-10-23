@@ -6,6 +6,7 @@ namespace RYU.Scirpt.Player
     public class HandRaycast : PlayerModule
     {
         [SerializeField] private LayerMask whatIsElectric;
+        [SerializeField] private Camera cam;
         private void Update()
         {
             Raycast();
@@ -13,7 +14,7 @@ namespace RYU.Scirpt.Player
 
         public void Raycast()
         {
-            var col = Physics.Raycast(transform.position, Controller.LookInput, 10f, whatIsElectric);
+            var col = Physics.Raycast(cam.transform.position, cam.transform.forward, 10f, whatIsElectric);
             Debug.DrawRay(transform.position, Controller.LookInput, Color.red);
             Debug.Log(col);
         }
