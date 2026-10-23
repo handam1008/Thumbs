@@ -8,8 +8,15 @@ namespace RYU.Scirpt.Player
         [SerializeField] private LayerMask whatIsElectric;
         [SerializeField] private Camera cam;
         [SerializeField] private Material glowMat;
+        private ThumbAnimation _animation;
         private Object _current;
-        public Object Current => _current; // 지금 바라보고 있는 전선 (없으면 null)
+        public Object Current => _current;
+        protected override void Awake()
+        {
+            base.Awake();
+            _animation = GetComponentInChildren<ThumbAnimation>();
+        }
+
         private void Update()
         {
             Raycast();
@@ -21,10 +28,20 @@ namespace RYU.Scirpt.Player
             if (Physics.Raycast(cam.transform.position, cam.transform.forward, out RaycastHit hitInfo, 10f, whatIsElectric))
                 hitInfo.collider.TryGetComponent(out target);
 
-            if (target == _current) return;                   
+            if (target == _current) return;
 
-            if (_current != null) _current.RollBackMaterial(); 
-            if (target != null) target.SetMaterial(glowMat);        
+            if (_current != null)
+            {
+                _current.RollBackMaterial();
+                _animation.ThumbDownReverse();
+            }
+
+            if (target != null)
+            {
+                target.SetMaterial(glowMat);
+                _animation.ThumbDown();
+                
+            }        
             _current = target;
         }
 

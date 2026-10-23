@@ -18,22 +18,13 @@ public class ThumbAnimation : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
-    private void Update()
-    {
-        if (Keyboard.current.qKey.wasPressedThisFrame)
-            ThumbDown();
-        // 전선을 보고 있을 때의 E는 미니게임 실행(MiniGameLauncher) 용이라 손 애니메이션을 건너뛴다
-        if (Keyboard.current.eKey.wasPressedThisFrame && (handRaycast == null || handRaycast.Current == null))
-            ThumbDownReverse();
-        
-    }
-
-    private void ThumbDown()
+   
+    public void ThumbDown()
     {
         _animator.Play("ThumbDown",0, 0f);
         ServiceLocator.Get<IAudioService>().PlaySfx(thumbSound);
     }
-    private void ThumbDownReverse()
+    public void ThumbDownReverse()
     {
         _animator.Play("ThumbUp", 0, 0f);
         ServiceLocator.Get<IAudioService>().PlaySfx(thumbSound);

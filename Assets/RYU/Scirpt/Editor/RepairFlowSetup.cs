@@ -12,6 +12,7 @@ using UnityEngine;
 public static class RepairFlowSetup
 {
     const string ItemPrefabFolder = "Assets/AJH/Prefabs";
+    const string MiniGamePrefabFolder = "Assets/WSH/02.Prefab";
     const int ElectricLayer = 6;
 
     [MenuItem("Thumbs/수리 흐름 연결")]
@@ -42,6 +43,7 @@ public static class RepairFlowSetup
         var so = new SerializedObject(launcher);
         so.FindProperty("handRaycast").objectReferenceValue = handRaycast;
         SetArray(so.FindProperty("disableWhilePlaying"), disable.Where(o => o != null).ToList());
+        SetArray(so.FindProperty("miniGamePrefabs"), LoadMiniGamePrefabs());
         so.ApplyModifiedProperties();
 
         // 2. 손님 도착 -> 물건 생성, 수리 완료 -> 물건 제거 + 골드
@@ -78,6 +80,20 @@ public static class RepairFlowSetup
         {
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(AssetDatabase.GUIDToAssetPath(guid));
             if (prefab.GetComponentsInChildren<Transform>(true).Any(t => t.gameObject.layer == ElectricLayer))
+                result.Add(prefab);
+        }
+        return result;
+    }
+
+    // WSH 퍼즐 컨트롤러(Onegame/TwogamePuzzleProcess)가 들어 있는 프리팹만 미니게임으로 쓴다
+    static List<Object> LoadMiniGamePrefabs()
+    {
+        var result = new List<Object>();
+        foreach (string guid in AssetDatabase.FindAssets("t:Prefab", new[] { MiniGamePrefabFolder }))
+        {
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(AssetDatabase.GUIDToAssetPath(guid));
+            if (prefab.GetComponentInChildren<WSH._01.Scripts.OnegamePuzzleProcess>(true) != null ||
+                prefab.GetComponentInChildren<WSH._01.Scripts.TwogamePuzzleProcess>(true) != null)
                 result.Add(prefab);
         }
         return result;

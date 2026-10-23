@@ -12,12 +12,14 @@ using UnityEditor.SceneManagement;
 
 namespace RYU.Scirpt.Repair
 {
-    // 전선을 보고 E를 누르면 WSH 미니게임 씬을 가게 씬 위에 추가로 불러온다.
-    // 퍼즐을 풀면(PuzzleProcess.OnCleared) 또는 ESC를 누르면 닫고 플레이어 조작을 돌려준다.
+    // 전선을 보고 E를 누르면 WSH 미니게임 씬(카메라)을 가게 씬 위에 추가로 불러오고,
+    // 그 안에 미니게임 프리팹 하나를 무작위로 생성한다.
+    // 퍼즐을 풀면(Onegame/TwogamePuzzleProcess.OnCleared) 또는 ESC를 누르면 닫고 플레이어 조작을 돌려준다.
     public class MiniGameLauncher : MonoBehaviour
     {
         [SerializeField] private HandRaycast handRaycast;
         [SerializeField] private Behaviour[] disableWhilePlaying;   // 이동, 시점, 레이캐스트, 플레이어 카메라 등
+        [SerializeField] private GameObject[] miniGamePrefabs;     // Assets/WSH/02.Prefab의 1_MiniGame, 2_MiniGame
         [SerializeField] private string miniGameScenePath = "Assets/WSH/00.Scene/MinGame.unity";
         [SerializeField] private Vector3 miniGameOffset = new(0f, 1000f, 0f); // 가게와 겹치지 않게 멀리 띄운다
 
@@ -29,12 +31,14 @@ namespace RYU.Scirpt.Repair
 
         private void OnEnable()
         {
-            PuzzleProcess.OnCleared += HandleCleared;
+            OnegamePuzzleProcess.OnCleared += HandleCleared;
+            TwogamePuzzleProcess.OnCleared += HandleCleared;
         }
 
         private void OnDisable()
         {
-            PuzzleProcess.OnCleared -= HandleCleared;
+            OnegamePuzzleProcess.OnCleared -= HandleCleared;
+            TwogamePuzzleProcess.OnCleared -= HandleCleared;
         }
 
         private void Update()
@@ -58,6 +62,11 @@ namespace RYU.Scirpt.Repair
             yield return SceneManager.LoadSceneAsync(System.IO.Path.GetFileNameWithoutExtension(miniGameScenePath), LoadSceneMode.Additive);
 #endif
             _scene = SceneManager.GetSceneByPath(miniGameScenePath);
+
+            // 미니게임 프리팹은 원점 기준으로 만들어져 있다 (씬 카메라는 z=-13에서 바라봄)
+            GameObject miniGame = Instantiate(miniGamePrefabs[UnityEngine.Random.Range(0, miniGamePrefabs.Length)]);
+            SceneManager.MoveGameObjectToScene(miniGame, _scene); // 씬을 닫을 때 같이 사라지게
+
             foreach (GameObject root in _scene.GetRootGameObjects())
             {
                 root.transform.position += miniGameOffset;

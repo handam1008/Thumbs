@@ -46849,6 +46849,9 @@ MonoBehaviour:
   - {fileID: 896108111}
   - {fileID: 896108114}
   - {fileID: 896108112}
+  miniGamePrefabs:
+  - {fileID: 1165341241690989621, guid: 3f77554fc52a83349bd170400a8074ba, type: 3}
+  - {fileID: 5232020362754244747, guid: dcd28e66c6b044f4ab60294df8c87c06, type: 3}
   miniGameScenePath: Assets/WSH/00.Scene/MinGame.unity
   miniGameOffset: {x: 0, y: 1000, z: 0}
 --- !u!1 &1664332182

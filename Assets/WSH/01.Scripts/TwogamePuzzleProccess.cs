@@ -76,6 +76,9 @@ namespace WSH._01.Scripts
             _canvas.SetActive(true);
             yield return new WaitForSeconds(2f);
             //여기다 다음씬 추가하면 될듯
+            OnCleared?.Invoke(); // 가게 쪽(MiniGameLauncher)이 받아서 미니게임을 닫는다
         }
+
+        public static event Action OnCleared;
     }
 }
